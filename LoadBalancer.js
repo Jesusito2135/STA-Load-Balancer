@@ -23,25 +23,22 @@ export default class LoadBalancer {
     //   work: 4              // Unidades de trabajo necesarias
     // }
 
-    let weights = []
-    let sum = 0
-    for (let i = 0; i < this.servers.length; i++){
-      console.log(this.servers[0].power)
-      console.log("i ES ", i)
-      weights.push(this.servers[i].power);
-      sum += this.servers[i].power
+    let queued = [this.servers[0].queuedRequests.length]
+    let min = this.servers[0].queuedRequests.length
+    let pos = 0
+    for (let i = 1; i < this.servers.length; i++){
+      queued.push(this.servers[i].queuedRequests.length);
+      console.log(this.servers[i].queuedRequests.length)
+      console.log(queued)
+      if (min > this.servers[i].queuedRequests.length){
+        min = this.servers[i].queuedRequests.length
+        pos = i
+      }
     }
     
-    let n = Math.floor(Math.random()* sum)
-    
-    let x = weights[0]
-    let index =0
-    while(x<n){
-      x += weights[index]
-      index += 1
-    }
+   
 
-    const server = this.servers[index];
+    const server = this.servers[pos];
 
     // Envía la petición al servidor y devuelve su respuesta al cliente.
     return sendToServer(server.id);
