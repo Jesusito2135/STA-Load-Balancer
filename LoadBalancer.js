@@ -22,7 +22,26 @@ export default class LoadBalancer {
     //   payload: "08319462", // Datos que envía el cliente
     //   work: 4              // Unidades de trabajo necesarias
     // }
-    const server = this.servers[0];
+
+    let weights = []
+    let sum = 0
+    for (let i = 0; i < this.servers.length; i++){
+      console.log(this.servers[0].power)
+      console.log("i ES ", i)
+      weights.push(this.servers[i].power);
+      sum += this.servers[i].power
+    }
+    
+    n = (Math.random()* sum).Math.floor()
+    
+    let x = weights[0]
+    let index =0
+    while(x<n){
+      x += weights[index]
+      index += 1
+    }
+
+    const server = this.servers[index];
 
     // Envía la petición al servidor y devuelve su respuesta al cliente.
     return sendToServer(server.id);
