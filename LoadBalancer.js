@@ -32,7 +32,7 @@ export default class LoadBalancer {
       sum += this.servers[i].power
     }
     
-    n = (Math.random()* sum).Math.floor()
+    let n = Math.floor(Math.random()* sum)
     
     let x = weights[0]
     let index =0
